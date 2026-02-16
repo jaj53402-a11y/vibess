@@ -11,6 +11,7 @@ html, body {
   padding: 0;
   background: #000;
   font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
 }
 
 .page {
@@ -30,38 +31,39 @@ video {
   max-height: 78vh;
   object-fit: contain;
   background: #000;
+  pointer-events: auto;
 }
 
-.ads-native {
-  width: 100%;
-  margin: 18px 0 28px 0;
-  display: flex;
-  justify-content: center;
-  background: #000;
+/* disable highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false">
 
 <div class="page">
 
   <!-- VIDEO DINAMIS -->
   <div class="video-box">
-    <video id="player" controls autoplay playsinline preload="metadata">
+    <video id="player"
+      controls
+      autoplay
+      playsinline
+      preload="metadata"
+      controlslist="nodownload nofullscreen noremoteplayback"
+      disablepictureinpicture
+      ondragstart="return false"
+    >
       <source id="videoSource" src="" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
-  <!-- NATIVE BANNER -->
-  <div class="ads-native">
-    <!-- PASTE_NATIVE_SCRIPT -->
-  </div>
-
 </div>
 
-<!-- AUTO AMBIL VIDEO DARI ?v= -->
+<!-- AUTO LOAD VIDEO DARI PARAMETER ?v= -->
 <script>
 (function () {
   const params = new URLSearchParams(window.location.search);
@@ -72,27 +74,47 @@ video {
       video = "https://cdn.videy.co/" + video;
     }
     document.getElementById("videoSource").src = video;
-    document.getElementById("player").load();
   } else {
-    // default video kalau tanpa parameter
     document.getElementById("videoSource").src = "https://cdn.videy.co/QCY4wUNX1.mp4";
-    document.getElementById("player").load();
   }
+
+  document.getElementById("player").load();
 })();
 </script>
 
-<!-- POPUNDER 1x PER VISIT -->
+<!-- PROTEKSI ANTI INSPECT & COPY -->
 <script>
 (function () {
-  if (!sessionStorage.getItem("popShown")) {
-    sessionStorage.setItem("popShown", "yes");
+  // Disable right click
+  document.addEventListener("contextmenu", e => e.preventDefault());
 
-    setTimeout(function () {
-      var s = document.createElement("script");
-      s.src = "PASTE_POPUNDER_SCRIPT";
-      document.body.appendChild(s);
-    }, 1500);
-  }
+  // Disable drag
+  document.addEventListener("dragstart", e => e.preventDefault());
+
+  // Disable key shortcuts
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "F12") e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
+    if (e.ctrlKey && ["U","S","P"].includes(e.key.toUpperCase())) e.preventDefault();
+  });
+
+  // Detect DevTools open
+  let devtools = { open: false };
+  const threshold = 160;
+
+  setInterval(function () {
+    if (
+      window.outerWidth - window.innerWidth > threshold ||
+      window.outerHeight - window.innerHeight > threshold
+    ) {
+      if (!devtools.open) {
+        devtools.open = true;
+        document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:40vh'>Access Denied</h2>";
+      }
+    } else {
+      devtools.open = false;
+    }
+  }, 1000);
 })();
 </script>
 
