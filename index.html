@@ -46,7 +46,7 @@ video {
 
 <div class="page">
 
-  <!-- VIDEO -->
+  <!-- VIDEO DINAMIS -->
   <div class="video-box">
     <video id="player" controls autoplay playsinline preload="metadata">
       <source id="videoSource" src="" type="video/mp4">
@@ -54,14 +54,14 @@ video {
     </video>
   </div>
 
-  <!-- NATIVE BANNER (PASTE SCRIPT ADSTERRA DI SINI) -->
+  <!-- NATIVE BANNER -->
   <div class="ads-native">
     <!-- PASTE_NATIVE_SCRIPT -->
   </div>
 
 </div>
 
-<!-- AUTO LOAD VIDEO DARI PARAMETER ?v= -->
+<!-- AUTO AMBIL VIDEO DARI ?v= -->
 <script>
 (function () {
   const params = new URLSearchParams(window.location.search);
@@ -74,7 +74,7 @@ video {
     document.getElementById("videoSource").src = video;
     document.getElementById("player").load();
   } else {
-    // Default video kalau tidak ada parameter
+    // default video kalau tanpa parameter
     document.getElementById("videoSource").src = "https://cdn.videy.co/QCY4wUNX1.mp4";
     document.getElementById("player").load();
   }
