@@ -1,76 +1,115 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video</title>
+<title>Watch Video</title>
 
 <style>
-/* ================= RESET ================= */
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: #000;
-  height: 100%;
-  width: 100%;
+/* ===== GLOBAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-/* ========== CONTAINER UTAMA ========== */
-.page {
-  width: 100%;
-  height: 100vh;
+body {
   background: #000;
+  color: #fff;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
-/* ========== VIDEO ========== */
-.video-box {
+/* ===== TOP BAR (PROFESSIONAL LOOK) ===== */
+.topbar {
   width: 100%;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+/* ===== VIDEO WRAPPER ===== */
+.wrapper {
+  flex: 1;
   display: flex;
   justify-content: center;
-  background: #000;
+  align-items: center;
+  padding: 12px;
 }
 
+.video-container {
+  width: 100%;
+  max-width: 900px;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* ===== VIDEO STYLE ===== */
 video {
   width: 100%;
-  max-height: 78vh;
+  max-height: 80vh;
   object-fit: contain;
+  background: #000;
+  display: block;
+}
+
+/* ===== FOOTER (CLEAN TRUST LOOK) ===== */
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+  padding: 12px 10px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
   background: #000;
 }
 
-/* ========== PEMBATAS BERSIH ========== */
-.ads-separator {
-  width: 100%;
-  height: 20px;
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 600px) {
+  .topbar {
+    font-size: 14px;
+    padding: 12px;
+  }
+  video {
+    max-height: 70vh;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="page">
+<div class="topbar">
+  Trending Clip — Watch Now
+</div>
 
-  <div class="video-box">
-    <video id="videoPlayer" controls autoplay playsinline
-      controlslist="nofullscreen nodownload noremoteplayback"
-      disablepictureinpicture preload="metadata">
-      <source id="videoSource" src="https://cdn.videy.co/1cyN8wMZ1.mp4" type="video/mp4">
-      Browser tidak mendukung video.
+<div class="wrapper">
+  <div class="video-container">
+    <video id="videoPlayer" controls autoplay playsinline preload="metadata">
+      <source id="videoSource" src="https://cdn.videy.co/QCY4wUNX1.mp4" type="video/mp4">
+      Your browser does not support video playback.
     </video>
   </div>
+</div>
 
-  <div class="ads-separator"></div>
-
+<div class="footer">
+  © 2026 Streaming Media. All rights reserved.
 </div>
 
 <script>
-// Ambil parameter ?v=
+// Support dynamic video via ?v=
 const params = new URLSearchParams(window.location.search);
 const videoParam = params.get("v");
 
-if(videoParam){
+if (videoParam) {
   const finalVideo = videoParam.startsWith("http")
     ? videoParam
     : "https://cdn.videy.co/" + videoParam;
@@ -79,7 +118,7 @@ if(videoParam){
   document.getElementById("videoPlayer").load();
 }
 
-// Anti fullscreen paksa
+// Prevent forced fullscreen hijack
 document.addEventListener('fullscreenchange', () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -87,7 +126,7 @@ document.addEventListener('fullscreenchange', () => {
 });
 </script>
 
-<!-- Histats.com START -->
+<!-- Histats Tracking -->
 <script type="text/javascript">
 var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,5007368,4,0,0,0,00010000']);
@@ -101,12 +140,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
 })();
 </script>
-<noscript>
-<a href="/" target="_blank">
-<img src="//sstatic1.histats.com/0.gif?5007368&101" alt="counter" border="0">
-</a>
-</noscript>
-<!-- Histats.com END -->
 
 </body>
 </html>
