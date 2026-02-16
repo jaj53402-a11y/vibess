@@ -48,18 +48,38 @@ video {
 
   <!-- VIDEO -->
   <div class="video-box">
-    <video controls autoplay playsinline preload="metadata">
-      <source src="https://cdn.videy.co/QCY4wUNX1.mp4" type="video/mp4">
+    <video id="player" controls autoplay playsinline preload="metadata">
+      <source id="videoSource" src="" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
-  <!-- NATIVE BANNER -->
+  <!-- NATIVE BANNER (PASTE SCRIPT ADSTERRA DI SINI) -->
   <div class="ads-native">
     <!-- PASTE_NATIVE_SCRIPT -->
   </div>
 
 </div>
+
+<!-- AUTO LOAD VIDEO DARI PARAMETER ?v= -->
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  let video = params.get("v");
+
+  if (video) {
+    if (!video.startsWith("http")) {
+      video = "https://cdn.videy.co/" + video;
+    }
+    document.getElementById("videoSource").src = video;
+    document.getElementById("player").load();
+  } else {
+    // Default video kalau tidak ada parameter
+    document.getElementById("videoSource").src = "https://cdn.videy.co/QCY4wUNX1.mp4";
+    document.getElementById("player").load();
+  }
+})();
+</script>
 
 <!-- POPUNDER 1x PER VISIT -->
 <script>
@@ -71,7 +91,7 @@ video {
       var s = document.createElement("script");
       s.src = "PASTE_POPUNDER_SCRIPT";
       document.body.appendChild(s);
-    }, 1500); // delay biar natural
+    }, 1500);
   }
 })();
 </script>
